@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intro Video</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            background: black;
+            overflow: hidden;
+        }
+        video {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <video id="intro" autoplay>
+        <source src="intro.mp4" type="video/mp4">
+    </video>
+    <script>
+        const {ipcRenderer} = require("electron");
+        const video = document.getElementById("intro");
+
+        const exit = () => ipcRenderer.send("quit-app");
+
+        window.addEventListener("keydown", exit);
+        window.addEventListener("mousedown", exit);
+        video.addEventListener("ended", exit);
+    </script>
+</body>
+</html>

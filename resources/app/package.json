@@ -1,0 +1,17 @@
+{
+  "name": "video-intro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^37.3.0",
+    "electron-packager": "^17.1.2"
+  }
+}
