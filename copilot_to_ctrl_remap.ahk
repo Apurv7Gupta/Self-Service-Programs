@@ -1,4 +1,4 @@
-﻿; =================================================How to install==================================================
+; =================================================How to install==================================================
 
 					; https://www.autohotkey.com/
 
@@ -44,17 +44,30 @@
 ; - Uses {Blind} to preserve unrelated modifier states.
 ; - Script runs silently in background after being placed in shell:startup.
 ;
+; Critical Notes:
+; remember, this still sends a combination of "win+shift+ctrl+shift+win", but behaves like a right ctrl key
 ; ================================================================================================================
 
 
 #Requires AutoHotkey v2.0
 
 ; --- Master Toggle ---
-$`:: {
-    Suspend(-1)
-    ToolTip(A_IsSuspended ? "OFF" : "ON")
+; The "S" option in the Hotkey function makes it "Exempt" from suspension
+Hotkey("$``", ToggleScript, "S")
+
+ToggleScript(ThisHotkey)
+{
+    Suspend(-1) ; Toggles suspension
+    
+    if A_IsSuspended
+        ToolTip("Script is OFF (shortcuts disabled)")
+    else
+        ToolTip("Script is ON (shortcuts active)")
+        
     SetTimer(() => ToolTip(), -1500)
 }
+
+
 
 ; --- Copilot Fix ---
 ; * = Wildcard (handles any extra modifiers)
