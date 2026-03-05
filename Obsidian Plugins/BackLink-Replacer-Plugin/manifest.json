@@ -1,0 +1,10 @@
+{
+  "id": "link-updater-plugin",
+  "name": "Link Updater Plugin",
+  "version": "0.1.0",
+  "minAppVersion": "0.15.0",
+  "description": "Updates function links in JSON clipboard data with a custom target name",
+  "author": "Blud",
+  "authorUrl": "",
+  "isDesktopOnly": false
+}

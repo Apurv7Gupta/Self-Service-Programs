@@ -1,0 +1,9 @@
+{
+  "id": "excalidraw-function-linker",
+  "name": "Excalidraw Function Linker",
+  "version": "1.0.0",
+  "minAppVersion": "0.12.0",
+  "description": "Auto-add smashed function name backlinks to Excalidraw links",
+  "author": "chatgpt",
+  "main": "main.js"
+}
