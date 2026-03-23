@@ -53,7 +53,7 @@
 
 ; --- Master Toggle ---
 ; The "S" option in the Hotkey function makes it "Exempt" from suspension
-Hotkey("$``", ToggleScript, "S")
+Hotkey("$PgDn", ToggleScript, "S")
 
 ToggleScript(ThisHotkey)
 {
