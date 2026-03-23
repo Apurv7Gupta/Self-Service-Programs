@@ -25,8 +25,8 @@
 ; It also includes a global suspend toggle with visual feedback.
 ;
 ; Usage:
-; 1) Master Toggle (` key)
-;    - Press the backtick (`) key to suspend/unsuspend the entire script.
+; 1) Master Toggle (PageDown)
+;    - Press the PageDown key to suspend/unsuspend the entire script.
 ;    - Displays a temporary ON/OFF tooltip for 1.5 seconds.
 ;
 ; 2) Copilot Fix (*<#+f23)
