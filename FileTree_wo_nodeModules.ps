@@ -1,0 +1,19 @@
+function Show-Tree($path, $prefix = "") {
+    $items = Get-ChildItem -LiteralPath $path | Where-Object { $_.Name -ne "node_modules" }
+    $count = $items.Count
+
+    for ($i = 0; $i -lt $count; $i++) {
+        $item = $items[$i]
+        $connector = if ($i -eq $count - 1) { "└── " } else { "├── " }
+        Write-Output "$prefix$connector$($item.Name)"
+
+        if ($item.PSIsContainer) {
+            $extension = if ($i -eq $count - 1) { "    " } else { "│   " }
+            Show-Tree $item.FullName ($prefix + $extension)
+        }
+    }
+}
+
+(* Press Enter *)
+
+Show-Tree "DRIVE:\Path\To\Your\Project"
