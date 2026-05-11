@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:           #0f0f0f;
+    --surface:      #1a1a1a;
+    --surface2:     #222222;
+    --border:       #2e2e2e;
+    --border-hover: #444444;
+    --text:         #e8e8e8;
+    --text-muted:   #888888;
+    --text-dim:     #555555;
+    --accent:       #d4ff6a;
+    --accent-dim:   #8fad3a;
+    --success-bg:   #1a2e12;
+    --success-text: #7ecf5a;
+    --success-border:#3a6128;
+    --error-bg:     #2e1212;
+    --error-text:   #e06060;
+    --error-border: #6b2828;
+    --reveal-bg:    #1a2e12;
+    --reveal-text:  #4a8a36;
+    --reveal-border:#2a4a20;
+    --radius:       6px;
+    --font-sans:    'IBM Plex Sans', sans-serif;
+    --font-mono:    'IBM Plex Mono', monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 680px;
+  }
+
+  /* ── INPUT SCREEN ── */
+  .input-screen { padding-top: 1rem; }
+
+  .screen-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 220px;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+    padding: 14px;
+    resize: vertical;
+    transition: border-color 0.15s;
+    outline: none;
+  }
+  textarea:focus { border-color: var(--border-hover); }
+  textarea::placeholder { color: var(--text-dim); }
+
+  .hint {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 8px;
+    font-family: var(--font-mono);
+  }
+
+  .err-msg {
+    font-size: 12px;
+    color: var(--error-text);
+    margin-top: 8px;
+    font-family: var(--font-mono);
+  }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 9px 22px;
+    background: transparent;
+    border: 1px solid var(--border-hover);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .btn:hover { background: var(--surface2); border-color: #666; }
+  .btn.accent {
+    background: var(--accent);
+    color: #0f0f0f;
+    border-color: var(--accent);
+    font-weight: 500;
+  }
+  .btn.accent:hover { background: #c0ee50; border-color: #c0ee50; }
+
+  /* ── QUIZ SCREEN ── */
+  .quiz-screen { padding-top: 0.5rem; }
+
+  .progress-track {
+    height: 3px;
+    background: var(--surface2);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .meta-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+  .round-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 3px 10px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text-dim);
+    background: var(--surface);
+  }
+
+  .question-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── OPTION BUTTONS — key fix: no fixed height, allow wrap ── */
+  .options-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.55;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+  .option-btn:hover:not(:disabled) {
+    background: var(--surface2);
+    border-color: var(--border-hover);
+  }
+  .option-btn:disabled { cursor: default; }
+
+  .opt-letter {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    padding-top: 2px;
+    min-width: 16px;
+    letter-spacing: 0.04em;
+  }
+  .opt-text { flex: 1; }
+
+  .option-btn.correct {
+    background: var(--success-bg);
+    border-color: var(--success-border);
+    color: var(--success-text);
+  }
+  .option-btn.correct .opt-letter { color: var(--success-text); opacity: 0.7; }
+
+  .option-btn.wrong {
+    background: var(--error-bg);
+    border-color: var(--error-border);
+    color: var(--error-text);
+  }
+  .option-btn.wrong .opt-letter { color: var(--error-text); opacity: 0.7; }
+
+  .option-btn.reveal {
+    background: var(--reveal-bg);
+    border-color: var(--reveal-border);
+    color: var(--reveal-text);
+    opacity: 0.75;
+  }
+  .option-btn.reveal .opt-letter { color: var(--reveal-text); opacity: 0.7; }
+
+  .dont-know-btn {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin-top: 4px;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.12s, color 0.12s;
+  }
+  .dont-know-btn:hover:not(:disabled) { border-color: var(--border-hover); color: var(--text-muted); }
+  .dont-know-btn:disabled { cursor: default; opacity: 0.4; }
+
+  .feedback {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0.9rem 0 1.25rem;
+    min-height: 20px;
+  }
+  .feedback.ok { color: var(--success-text); }
+  .feedback.no { color: var(--error-text); }
+
+  /* ── SUMMARY ── */
+  .summary {
+    text-align: center;
+    padding: 3rem 0 2rem;
+  }
+  .summary .score-big {
+    font-family: var(--font-mono);
+    font-size: 56px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .summary .score-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+  .btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="root"></div>
+</div>
+
+<script>
+let parsed=[], queue=[], wrongList=[], round=1, current=0, answered=false, score=0, total=0;
+
+function parseText(raw){
+  const questions=[];
+  const qBlocks=raw.split(/\n(?=\d+\.\s)/);
+  for(const block of qBlocks){
+    const lines=block.trim().split('\n').map(l=>l.trim()).filter(Boolean);
+    if(!lines.length) continue;
+    const qMatch=lines[0].match(/^\d+\.\s+(.+)/);
+    if(!qMatch) continue;
+    let qText=qMatch[1];
+    const opts=[], optMap={};
+    let correctLetter=null;
+    for(let i=1;i<lines.length;i++){
+      const l=lines[i];
+      // new option line: a) / b) / c) / d)
+      const optM=l.match(/^([a-d])\)\s+(.+)/i);
+      if(optM){
+        opts.push({letter:optM[1].toLowerCase(),text:optM[2],correct:false});
+        optMap[optM[1].toLowerCase()]=opts.length-1;
+        continue;
+      }
+      // correct answer line
+      const ansM=l.match(/correct\s+answer\s*:\s*([a-d])\)/i);
+      if(ansM){ correctLetter=ansM[1].toLowerCase(); continue; }
+      // continuation line — append to last open option (or question if no opts yet)
+      if(opts.length>0 && correctLetter===null){
+        opts[opts.length-1].text+=' '+l;
+      } else if(opts.length===0){
+        qText+=' '+l;
+      }
+    }
+    if(!correctLetter||opts.length<2) continue;
+    if(optMap[correctLetter]!==undefined) opts[optMap[correctLetter]].correct=true;
+    questions.push({q:qText,opts});
+  }
+  return questions;
+}
+
+function shuffle(a){return [...a].sort(()=>Math.random()-0.5)}
+
+function startQuiz(data){
+  parsed=data;
+  queue=shuffle(data).map(item=>({q:item.q,opts:shuffle(item.opts.map(o=>({...o})))}));
+  wrongList=[];round=1;current=0;answered=false;score=0;total=queue.length;
+  renderQ();
+}
+
+function showInput(errMsg){
+  document.getElementById('root').innerHTML=`
+    <div class="input-screen">
+      <p class="screen-label">// paste questions</p>
+      <textarea id="rawtxt" placeholder="1. Which of the following...&#10;a) Option one&#10;b) Option two&#10;c) Option three&#10;d) Option four&#10;Correct Answer: b) Option two&#10;&#10;2. Next question..."></textarea>
+      <p class="hint">Format: numbered questions → a/b/c/d options → "Correct Answer: x)" line</p>
+      ${errMsg?`<p class="err-msg">${errMsg}</p>`:''}
+      <br><button class="btn accent" onclick="tryStart()">Start quiz →</button>
+    </div>
+  `;
+}
+
+function tryStart(){
+  const raw=document.getElementById('rawtxt').value.trim();
+  if(!raw){showInput('Paste some questions first.');return;}
+  const data=parseText(raw);
+  if(!data.length){showInput('Could not parse any questions. Check the format.');return;}
+  startQuiz(data);
+}
+
+const LABELS=['a','b','c','d'];
+
+function renderQ(){
+  const root=document.getElementById('root');
+  if(current>=queue.length){wrongList.length?showRoundEnd():showSummary();return;}
+  const item=queue[current];
+  const prog=Math.round((current/queue.length)*100);
+  answered=false;
+  root.innerHTML=`
+    <div class="quiz-screen">
+      <div class="progress-track"><div class="progress-fill" style="width:${prog}%"></div></div>
+      <div class="meta-row">
+        <span class="meta-label">Q ${current+1} / ${queue.length}</span>
+        <span class="round-badge">round ${round}</span>
+      </div>
+      <div class="question-text">${item.q}</div>
+      <div class="options-list">
+        ${item.opts.map((o,i)=>`
+          <button class="option-btn" id="opt${i}" onclick="pick(${i})">
+            <span class="opt-letter">${LABELS[i]})</span>
+            <span class="opt-text">${o.text}</span>
+          </button>`).join('')}
+      </div>
+      <button class="dont-know-btn" id="dkbtn" onclick="dontKnow()">? don't know</button>
+      <div class="feedback" id="fb"></div>
+      <button class="btn" id="nxt" style="display:none" onclick="nextQ()">Next →</button>
+    </div>
+  `;
+}
+
+function dontKnow(){
+  if(answered)return;
+  answered=true;
+  const item=queue[current];
+  // disable all option buttons and reveal correct
+  item.opts.forEach((o,idx)=>{
+    const btn=document.getElementById('opt'+idx);
+    btn.disabled=true;
+    if(o.correct) btn.className='option-btn reveal';
+  });
+  document.getElementById('dkbtn').disabled=true;
+  const fb=document.getElementById('fb');
+  fb.className='feedback no';
+  fb.textContent='✗ skipped — correct answer highlighted';
+  wrongList.push({q:item.q,opts:item.opts});
+  document.getElementById('nxt').style.display='inline-block';
+}
+
+function pick(i){
+  if(answered)return;
+  answered=true;
+  const item=queue[current];
+  const chosen=item.opts[i];
+  item.opts.forEach((o,idx)=>{
+    const btn=document.getElementById('opt'+idx);
+    btn.disabled=true;
+    if(o.correct&&idx===i) btn.className='option-btn correct';
+    else if(!o.correct&&idx===i) btn.className='option-btn wrong';
+    else if(o.correct) btn.className='option-btn reveal';
+  });
+  document.getElementById('dkbtn').disabled=true;
+  const fb=document.getElementById('fb');
+  if(chosen.correct){fb.className='feedback ok';fb.textContent='✓ correct';score++;}
+  else{fb.className='feedback no';fb.textContent='✗ wrong — correct answer highlighted';wrongList.push({q:item.q,opts:item.opts});}
+  document.getElementById('nxt').style.display='inline-block';
+}
+
+function nextQ(){current++;renderQ();}
+
+function showRoundEnd(){
+  const wc=wrongList.length;
+  document.getElementById('root').innerHTML=`
+    <div class="summary">
+      <div class="score-big">${score}/${total}</div>
+      <div class="score-sub">${wc} question${wc>1?'s':''} wrong — retrying now</div>
+      <div class="btn-row"><button class="btn accent" onclick="startRetry()">Retry wrong questions →</button></div>
+    </div>`;
+}
+
+function startRetry(){
+  queue=shuffle(wrongList).map(item=>({q:item.q,opts:shuffle(item.opts.map(o=>({...o})))}));
+  wrongList=[];round++;total=queue.length;score=0;current=0;answered=false;
+  renderQ();
+}
+
+function showSummary(){
+  document.getElementById('root').innerHTML=`
+    <div class="summary">
+      <div class="score-big">done</div>
+      <div class="score-sub">all correct${round>1?` after ${round} rounds`:''}.</div>
+      <div class="btn-row">
+        <button class="btn" onclick="startQuiz(parsed)">restart</button>
+        <button class="btn" onclick="showInput()">new questions</button>
+      </div>
+    </div>`;
+}
+
+showInput();
+</script>
+</body>
+</html>
