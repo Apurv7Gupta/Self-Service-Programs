@@ -1,6 +1,6 @@
-### Sql injection payloads
+### Payloads
 
-https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection
+[https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master)
 
 
 ### ASCII Smuggler
