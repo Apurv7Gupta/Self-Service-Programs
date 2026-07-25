@@ -1,3 +1,10 @@
+This script:
+
+- Recursively prints a directory tree using Unicode branch characters.
+
+- Skips the "node_modules" folder to keep the output clean.
+
+```ps
 function Show-Tree($path, $prefix = "") {
     $items = Get-ChildItem -LiteralPath $path | Where-Object { $_.Name -ne "node_modules" }
     $count = $items.Count
@@ -13,11 +20,15 @@ function Show-Tree($path, $prefix = "") {
         }
     }
 }
+```
+`Press Enter`
 
-(* Press Enter *)
-
+```ps
 Show-Tree "DRIVE:\Path\To\Your\Project"
+```
 
-(* To save to a file *)
+### To save to a file
 
+```ps
 Show-Tree "DRIVE:\Path\To\Your\Project" > tree.txt
+```
