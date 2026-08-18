@@ -6,7 +6,8 @@ This script:
 
 ```ps
 function Show-Tree($path, $prefix = "") {
-    $items = Get-ChildItem -LiteralPath $path | Where-Object { $_.Name -ne "node_modules" }
+    $items = Get-ChildItem -LiteralPath $path | Where-Object { $_.Name -ne "node_modules" -and $_.Name -ne "myvenv"
+}
     $count = $items.Count
 
     for ($i = 0; $i -lt $count; $i++) {
