@@ -87,14 +87,29 @@ wsl --install
 
   Bypass the fragile command-line downloader and use the Microsoft Store, which natively handles connection drops and resumes:
 
-    Open the Microsoft Store app from your Start Menu.
+    - Open the Microsoft Store app from your Start Menu.
 
-    Search for Ubuntu (the standard version without a year/version number).
+    - Search for Ubuntu (the standard version without a year/version number).
 
-    Click Get or Install.
+    - Click Get or Install.
 
-    Once the download finishes, launch Ubuntu from the Start Menu.
+    - Once the download finishes, launch Ubuntu from the Start Menu.
+      
+    - A terminal will open and perform a brief initial setup. Enter a new UNIX username and password when prompted.
 
-    A terminal will open and perform a brief initial setup. Enter a new UNIX username and password when prompted.
+    - Close the Ubuntu terminal and launch Docker Desktop.
 
-    Close the Ubuntu terminal and launch Docker Desktop.
+      ```ubuntu
+      Installing, this may take a few minutes...
+      Please create a default UNIX user account. The username does not need to match your Windows username.
+      For more information visit: https://aka.ms/wslusers
+      Enter new UNIX username: ubuntu
+      New password:
+      Retype new password:
+      passwd: password updated successfully
+      Installation successful!
+      To run a command as administrator (user "root"), use "sudo <command>".
+      See "man sudo_root" for details.
+
+      ubuntu@DeusExMachina:~$
+      ```
