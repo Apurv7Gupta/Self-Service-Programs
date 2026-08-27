@@ -68,3 +68,33 @@ $installArgs = "install --quiet --accept-license --installation-dir=`"$targetBas
 Start-Process -Wait -FilePath $installerPath -ArgumentList $installArgs
 
 ```
+Docker Desktop is now installed
+
+Install WSL (this will be in C: with limited space and won't grow):
+
+```powershell
+wsl --install
+```
+
+- if the ubuntu installation fails:
+  ```
+  Downloading: Ubuntu
+
+  The connection with the server was reset ================ ]
+
+  Error code: Wsl/InstallDistro/0x80072eff 
+  ```
+
+  Bypass the fragile command-line downloader and use the Microsoft Store, which natively handles connection drops and resumes:
+
+    Open the Microsoft Store app from your Start Menu.
+
+    Search for Ubuntu (the standard version without a year/version number).
+
+    Click Get or Install.
+
+    Once the download finishes, launch Ubuntu from the Start Menu.
+
+    A terminal will open and perform a brief initial setup. Enter a new UNIX username and password when prompted.
+
+    Close the Ubuntu terminal and launch Docker Desktop.
