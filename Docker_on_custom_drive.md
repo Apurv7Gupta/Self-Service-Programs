@@ -1,3 +1,7 @@
+> [!IMPORTANT]
+> Last performed on Docker version 29.7.2, build a7dcaa6 **may need to be revisited after Docker Desktop updates**
+
+
 ### How to Force Docker Desktop Installation to a Custom Drive on Windows
 
 Docker Desktop notoriously hardcodes paths to the `C:` drive for heavy assets (WSL virtual disks, container layers, cache). Standard installer flags only move the binaries. This implementation uses native CLI flags for data roots and NTFS Directory Junctions for hardcoded `AppData` paths to force all heavy data off the `C:` drive.
@@ -113,6 +117,3 @@ wsl --install
 
       ubuntu@DeusExMachina:~$
       ```
-
-> [!IMPORTANT]
-> Last performed on Docker version 29.7.2, build a7dcaa6 **may need to be revisited after Docker Desktop updates**
