@@ -113,3 +113,8 @@ wsl --install
 
       ubuntu@DeusExMachina:~$
       ```
+
+> [!IMPORTANT]
+
+> Last performed on Docker version 29.7.2, build a7dcaa6
+> may need to be revisited after Docker Desktop updates
