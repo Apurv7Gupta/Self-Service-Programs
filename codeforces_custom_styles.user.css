@@ -1,0 +1,16 @@
+/* ==UserStyle==
+@name           SaaS style Codeforces
+@namespace      github.com/Apurv7Gupta/Self-Service-Programs
+@version        1.0.0
+@description    Codeforces if it was built as a modern SaaS platform
+@author         Apurv Gupta
+@homepageURL    https://github.com/Apurv7Gupta/Self-Service-Programs
+@updateURL      https://raw.githubusercontent.com/Apurv7Gupta/Self-Service-Programs/main/codeforces_custom_styles.user.css
+==/UserStyle== */
+
+@-moz-document domain("codeforces.com") {
+    /* Your CSS goes here */
+    body {
+        background-color: #121212 !important;
+    }
+}
