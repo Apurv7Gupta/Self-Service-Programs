@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           SaaS style Codeforces
 @namespace      github.com/Apurv7Gupta/Self-Service-Programs
-@version        1.0.0
+@version        1.0.1
 @description    Codeforces if it was built as a modern SaaS platform
 @author         Apurv Gupta
 @homepageURL    https://github.com/Apurv7Gupta/Self-Service-Programs
@@ -9,8 +9,94 @@
 ==/UserStyle== */
 
 @-moz-document domain("codeforces.com") {
-    /* Your CSS goes here */
+    /* CHANGED: Overrode default background to a soft, warm off-white (#F8F7F5) mimicking Claude's aesthetic */
     body {
-        background-color: #121212 !important;
+        background-color: #F8F7F5 !important;
+        color: #2D2D2D !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    }
+
+    /* CHANGED: Flattened the main container to remove default 90s-style layout artifacts */
+    #pageContent {
+        background-color: transparent !important;
+        padding: 20px !important;
+    }
+
+    /* CHANGED: Converted all rounded boxes to modern, flat, shadow-less SaaS cards */
+    .roundbox {
+        background-color: #FFFFFF !important;
+        border: 1px solid #E5E7EB !important;
+        border-radius: 8px !important;
+        box-shadow: none !important;
+        padding: 15px !important;
+    }
+
+    /* CHANGED: Removed default Title background gradients and flattened text */
+    .roundbox .caption {
+        background: none !important;
+        color: #111827 !important;
+        font-weight: 600 !important;
+        border-bottom: 1px solid #E5E7EB !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    /* CHANGED: Restyled datatables (standings, problemsets) to look modern and flat */
+    .datatable td, .datatable th {
+        border: none !important;
+        border-bottom: 1px solid #F3F4F6 !important;
+        padding: 12px 8px !important;
+        background-color: #FFFFFF !important;
+    }
+    
+    .datatable th {
+        font-weight: 600 !important;
+        color: #6B7280 !important;
+        background-color: #FAFAFA !important;
+    }
+
+    /* CHANGED: Flattened buttons to be white with subtle borders */
+    input[type="submit"], input[type="button"], button, .submit {
+        background-color: #FFFFFF !important;
+        color: #374151 !important;
+        border: 1px solid #D1D5DB !important;
+        border-radius: 6px !important;
+        padding: 6px 14px !important;
+        box-shadow: none !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+    }
+
+    /* CHANGED: Added modern hover state for white buttons */
+    input[type="submit"]:hover, input[type="button"]:hover, button:hover, .submit:hover {
+        background-color: #F9FAFB !important;
+        border-color: #9CA3AF !important;
+    }
+
+    /* CHANGED: Modernized standard links to drop the default heavy blue, using a crisp dark tone */
+    a {
+        color: #4B5563 !important;
+        text-decoration: none !important;
+    }
+    
+    /* CHANGED: Kept hover states clean with simple underlines */
+    a:hover {
+        color: #111827 !important;
+        text-decoration: underline !important;
+    }
+
+    /* CHANGED: Cleaned up the header navigation bar to match the flat aesthetic */
+    #header {
+        background-color: #FFFFFF !important;
+        border-bottom: 1px solid #E5E7EB !important;
+        padding-bottom: 10px !important;
+    }
+    
+    /* CHANGED: Removed archaic background images from tabs */
+    .second-level-menu-list li a {
+        background-image: none !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
     }
 }
